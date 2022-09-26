@@ -11,7 +11,7 @@ public class ScoreTrakker {
 		String name = "", curr = "";
 		
 		while ((counter = in.read()) != -1) {
-			if (counter != 10 || counter != 13) { // ascii value for new line character
+			if (counter != 10) { // ascii value for new line character
 				curr += (char)counter;
 			} else {
 				// there is an error with curr (it includes the new line character for some reason)
@@ -34,7 +34,7 @@ public class ScoreTrakker {
 	}
 	
 	private void processFiles() throws IOException{
-		this.loadDataFile("C:\\Users\\dcorm\\CSCI_306\\ScoreTrakker\\Scores");
+		this.loadDataFile("Scores.txt");
 		this.printInOrder();
 	}
 	
