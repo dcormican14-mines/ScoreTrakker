@@ -5,27 +5,28 @@ public class ScoreTrakker {
 	private ArrayList<Student> students = new ArrayList<>();
 	
 	public void loadDataFile(String inFile) throws IOException {
-		FileReader in = new FileReader(inFile);
-		int counter;
-		boolean isScore = false;
-		String name = "", curr = "";
-		
-		while ((counter = in.read()) != -1) {
-			if (counter != 10) { // ascii value for new line character
-				curr += (char)counter;
-			} else {
-				// there is an error with curr (it includes the new line character for some reason)
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(inFile));
+			String str;
+			boolean isScore = false;
+			String name = "";
+			
+			while ((str = in.readLine()) != null) {
 				if (isScore) {
-					System.out.println(Integer.parseInt(curr));
-					students.add(new Student(name, Integer.parseInt(curr)));
+					try {
+						students.add(new Student(name, Integer.parseInt(str)));
+					} catch (Exception e) {
+						System.out.println("Incorrect format for " + name + "not a valid score: " + str);
+					}
 				} else {
-					name = curr;
+					name = str;
 				}
-				curr = ""; // resets current line.
 				isScore = !isScore; // flips the boolean to make sure we get all information for one student
 			}
+			in.close();
+		} catch (Exception e){
+			System.out.println("Something went wrong while trying to read the file. \n" + e.toString());
 		}
-		in.close();
 	}
 	
 	public void printInOrder() {
